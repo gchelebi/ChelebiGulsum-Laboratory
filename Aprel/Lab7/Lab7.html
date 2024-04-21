@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Calculate Average</title>
+</head>
+<body>
+    <h2>Student Information</h2>
+    <div id="students_form"></div>
+    <button type="button" onclick="addStudent()">Add Student</button><br><br>
+
+    <h2>Students with Average Score > 45</h2>
+    <div id="above_45_results"></div>
+
+    <h2>All Student Information</h2>
+    <div id="all_results"></div>
+
+    <script>
+        var students = [];
+        var above45Students = [];
+
+        function addStudent() {
+            var student = { name: prompt("Enter Student Name:"), scores: [] };
+            for (var i = 0; i < 3; i++) {
+                student.scores.push(parseFloat(prompt("Enter Score for Subject " + (i + 1) + ":")));
+            }
+            students.push(student);
+            displayResults();
+        }
+
+        function displayResults() {
+            document.getElementById("above_45_results").innerHTML = "";
+            above45Students = students.filter(function(student) {
+                var total = student.scores.reduce((a, b) => a + b, 0);
+                var average = total / student.scores.length;
+                return average > 45;
+            });
+
+            above45Students.forEach(function(student) {
+                var total = student.scores.reduce((a, b) => a + b, 0);
+                var average = total / student.scores.length;
+
+                var html = "<h2>" + student.name + " Information</h2><table border='1'><tr><th>Subject 1</th><th>Subject 2</th><th>Subject 3</th><th>Average</th></tr><tr><td>" + student.scores[0] + "</td><td>" + student.scores[1] + "</td><td>" + student.scores[2] + "</td><td>" + average + "</td></tr></table>";
+                document.getElementById("above_45_results").innerHTML += html;
+            });
+
+            displayAllResults();
+        }
+
+        function displayAllResults() {
+            document.getElementById("all_results").innerHTML = "";
+            students.forEach(function(student) {
+                var total = student.scores.reduce((a, b) => a + b, 0);
+                var average = total / student.scores.length;
+
+                var html = "<h2>" + student.name + " Information</h2><table border='1'><tr><th>Subject 1</th><th>Subject 2</th><th>Subject 3</th><th>Average</th></tr><tr><td>" + student.scores[0] + "</td><td>" + student.scores[1] + "</td><td>" + student.scores[2] + "</td><td>" + average + "</td></tr></table>";
+                document.getElementById("all_results").innerHTML += html;
+            });
+        }
+    </script>
+</body>
+</html>
